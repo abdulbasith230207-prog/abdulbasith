@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAUZA FARM DEPOK | Hewan Qurban</title>
+  <style>
+    :root {
+      --green: #174c36;
+      --green-light: #26704d;
+      --cream: #f7f6ef;
+      --gold: #e2bd68;
+      --text: #1d2b23;
+      --muted: #68776d;
+      --line: #e0e6de;
+      --white: #ffffff;
+      --red: #a83232;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Arial, Helvetica, sans-serif;
+      color: var(--text); background: var(--cream);
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap; padding: 18px 5%;
+      color: white; background: var(--green);
+    }
+    .brand { font-weight: 800; font-size: 1.2rem; }
+    .brand span { color: var(--gold); }
+    nav { display: flex; gap: 18px; flex-wrap: wrap; }
+    nav a { color: white; text-decoration: none; font-size: .92rem; }
+    .hero {
+      padding: 55px 5%; color: white;
+      background: linear-gradient(120deg, #174c36, #2d7954);
+      display: grid; grid-template-columns: 1.4fr .6fr; gap: 28px; align-items: center;
+    }
+    .eyebrow { color: var(--gold); font-weight: 800; letter-spacing: 2px; font-size: .78rem; }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.7rem); line-height: 1.08; margin: 12px 0; }
+    .hero p { color: #e4eee6; line-height: 1.7; max-width: 650px; }
+    .hero-box { padding: 24px; border: 1px solid #ffffff40; background: #ffffff12; border-radius: 18px; }
+    .hero-box strong { display: block; font-size: 2rem; color: var(--gold); }
+    .btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 12px 16px; border: 0; border-radius: 10px;
+      background: var(--green); color: white; font-weight: 700;
+      text-decoration: none; cursor: pointer; font-size: .92rem;
+    }
+    .btn-gold { background: var(--gold); color: #24352a; margin-top: 12px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    main { max-width: 1450px; margin: auto; padding: 34px 5% 60px; }
+    .heading { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: end; }
+    h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+    .muted { color: var(--muted); line-height: 1.6; }
+    .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+    .stat { background: white; border: 1px solid var(--line); padding: 10px 13px; border-radius: 10px; }
+    .stat b { color: var(--green); }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin: 22px 0; }
+    .filters input, .filters select, .admin select, .admin input {
+      min-width: 150px; padding: 12px; border: 1px solid var(--line);
+      border-radius: 9px; background: white; color: var(--text); font: inherit;
+    }
+    .filters input { flex: 1; min-width: 200px; }
+    .group-title { margin: 28px 0 14px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .group-title h3 { margin: 0; font-size: 1.35rem; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .animal { background: white; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+    .animal-top { min-height: 105px; background: linear-gradient(140deg, #e8efdf, #f7e8c9); display: flex; align-items: center; justify-content: center; font-size: 3.3rem; position: relative; }
+    .tag { position: absolute; top: 12px; left: 12px; background: white; color: var(--green); border-radius: 20px; padding: 6px 9px; font-size: .7rem; font-weight: 800; }
+    .tag.sold { background: var(--red); color: white; }
+    .animal-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .animal-body h4 { margin: 0; font-size: 1.1rem; }
+    .price { font-weight: 800; color: var(--green); font-size: 1.25rem; }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .spec { padding: 9px; border-radius: 8px; background: #f5f7f2; overflow-wrap: anywhere; }
+    .spec span { display: block; font-size: .73rem; color: var(--muted); margin-bottom: 4px; }
+    .spec b { font-size: .86rem; }
+    .animal-body .btn { width: 100%; margin-top: auto; }
+    .sold-note { color: var(--red); font-weight: 800; font-size: .9rem; }
+    .notice, .admin, .howto { margin-top: 28px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .notice { background: #fff8e7; border-color: #f0dfb6; color: #675326; line-height: 1.6; }
+    .admin h3, .howto h3 { margin-top: 0; }
+    .admin-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    .admin-controls select { flex: 1; }
+    .btn-red { background: var(--red); }
+    .btn-soft { background: #e7eee7; color: var(--green); }
+    footer { background: #122f23; color: white; padding: 28px 5%; display: flex; gap: 20px; justify-content: space-between; flex-wrap: wrap; }
+    footer p { margin: 6px 0; color: #c8d8cd; font-size: .9rem; }
+    @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 580px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero { padding-top: 38px; } nav { gap: 12px; } }
+    /* Bikin foto memenuhi bagian atas kartu */
+.animal {
+  position: relative;
+  overflow: hidden;
+}
+
+.animal img {
+  display: block;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+}
+
+.animal-top {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  background: transparent;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🌿 MAUZA <span>FARM DEPOK</span></div>
+    <nav>
+      <a href="#katalog">Katalog</a>
+      <a href="#cara-pesan">Cara Pesan</a>
+      <a href="#admin">Kelola Status</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">KATALOG HEWAN QURBAN</div>
+      <h1>Pilih hewan qurban dengan lebih mudah.</h1>
+      <p>Temukan pilihan sapi dan kambing, cek informasi yang tersedia, lalu hubungi MAUZA FARM DEPOK untuk konfirmasi harga, stok, dan pengiriman.</p>
+      <a class="btn btn-gold" href="#katalog">Lihat Katalog</a>
+    </div>
+    <div class="hero-box">
+      <strong>80 pilihan</strong>
+      <div>30 sapi dan 50 kambing.</div>
+      <p>Data hewan perlu dilengkapi dengan informasi aktual peternakan.</p>
+    </div>
+  </section>
+
+  <main>
+    <section id="katalog">
+      <div class="heading">
+        <div>
+          <h2>Katalog Hewan</h2>
+          <p class="muted">Cari berdasarkan nomor, jenis, atau status.</p>
+        </div>
+        <div class="stats">
+          <div class="stat">Tersedia: <b id="availableCount">80</b></div>
+          <div class="stat">Terjual: <b id="soldCount">0</b></div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="search" type="search" placeholder="Cari nama atau nomor hewan...">
+        <select id="typeFilter">
+          <option value="all">Semua jenis</option>
+          <option value="Sapi">Sapi</option>
+          <option value="Kambing">Kambing</option>
+        </select>
+        <select id="statusFilter">
+          <option value="all">Semua status</option>
+          <option value="available">Tersedia</option>
+          <option value="sold">Terjual</option>
+        </select>
+        <select id="sortFilter">
+          <option value="number">Urut nomor</option>
+          <option value="priceAsc">Harga terendah</option>
+          <option value="priceDesc">Harga tertinggi</option>
+        </select>
+      </div>
+
+      <div class="group-title"><h3>🐄 Sapi</h3><span class="muted">Nomor 1–30</span></div>
+      <div id="cows" class="grid"></div>
+      <div class="group-title"><h3>🐐 Kambing</h3><span class="muted">Nomor 1–50</span></div>
+      <div id="goats" class="grid"></div>
+
+      <div class="notice">
+        <b>Informasi:</b> harga, bobot, usia, dan ras pada data contoh tidak mewakili kondisi hewan yang sebenarnya. Ganti dengan data asli sebelum website digunakan untuk transaksi.
+      </div>
+    </section>
+
+    <section id="cara-pesan" class="howto">
+      <h3>Cara Pemesanan</h3>
+      <ol>
+        <li>Pilih hewan dengan status Tersedia.</li>
+        <li>Tekan tombol WhatsApp untuk mengirim pertanyaan tentang hewan pilihan.</li>
+        <li>Konfirmasi stok, harga, bobot aktual, kondisi hewan, dan pengiriman dengan peternakan.</li>
+        <li>Setelah transaksi benar-benar selesai, admin tandai hewan sebagai Terjual.</li>
+      </ol>
+      <p class="muted">Versi HTML ini menyimpan status di browser yang digunakan, bukan database online bersama.</p>
+    </section>
+
+    <section id="admin" class="admin">
+      <h3>Kelola Status Hewan</h3>
+      <p class="muted">Pilih hewan di bawah lalu ubah statusnya. Gunakan fitur ini hanya setelah status penjualan dikonfirmasi.</p>
+      <div class="admin-controls">
+        <select id="adminAnimal"></select>
+        <button class="btn btn-red" id="markSold">Tandai Terjual</button>
+        <button class="btn btn-soft" id="markAvailable">Tandai Tersedia</button>
+      </div>
+      <p id="adminMessage" class="muted" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div><b>MAUZA FARM DEPOK</b><p>Kp. Tipar, Depok, Jawa Barat</p></div>
+    <div><b>Hubungi Kami</b><p>WhatsApp: 089572318469</p><p>Pengiriman: konfirmasi dengan peternakan</p></div>
+    <div><p>© 2026 MAUZA FARM DEPOK</p></div>
+  </footer>
+
+  <script>
+    /*
+      CARA EDIT DATA:
+      1. Cari bagian "DATA HEWAN" di bawah.
+      2. Ganti harga, bobot, usia, dan ras sesuai data asli.
+      3. Nomor WhatsApp disimpan pada variabel FARM_WHATSAPP.
+      4. Harga harus ditulis sebagai angka, tanpa titik atau Rp.
+      Contoh: price: 25000000 berarti Rp25.000.000.
+    */
+
+    const FARM_NAME = "MAUZA FARM DEPOK";
+    const FARM_WHATSAPP = "6289572318469"; // Format internasional: 62, tanpa angka 0 di depan
+    const FARM_CITY = "Depok, Jawa Barat";
+    const FARM_ADDRESS = "Kp. Tipar";
+
+    // DATA HEWAN — setiap hewan punya data sendiri.
+    // Edit hanya baris hewan yang ingin diubah. Contoh: weight: 320, price: 25000000
+    // Jangan masukkan angka contoh sebagai data asli tanpa mengecek hewannya.
+    const animals = [
+      {
+        id: "S01",
+        type: "Sapi",
+        number: 1,
+        name: "Sapi kucing",
+        weight: null,
+        age: "Belum diisi",
+        breed: "Belum diisi",
+        price: null,
+        status: "available",
+        image: "foto/sapi01.jpg"
+      },
+      {
+        id: "S02",
+        type: "Sapi",
+        number: 2,
+        name: "Sapi meditasi",
+        weight: 200,
+        age: "Belum diisi",
+        breed: "Belum diisi",
+        price: 0,
+        status: "available",
+        image: "foto/sapi02.jpg"
+      },
+      {
+        id: "S03",
+        type: "Sapi",
+        number: 3,
+        name: "Sapidermen",
+        weight: null,
+        age: "Belum diisi",
+        breed: "Belum diisi",
+        price: 27000000,
+        status: "available",
+        image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S04",
+        type: "Sapi",
+        number: 4,
+        name: "Sapi 4",
+        weight: null,
+        age: "Belum diisi",
+        breed: "Belum diisi",
+        price: null,
+        status: "available",
+       image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S05", type: "Sapi", number: 5, name: "Sapi 5",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available",image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S06", type: "Sapi", number: 6, name: "Sapi 6",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S07", type: "Sapi", number: 7, name: "Sapi 7",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S08", type: "Sapi", number: 8, name: "Sapi 8",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available",image: "foto/sapi04.jpg"
+      },
+      {
+        id: "S09", type: "Sapi", number: 9, name: "Sapi 9",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available",image: "foto/sapi05.jpg"
+      },
+      {
+        id: "S10", type: "Sapi", number: 10, name: "Sapi 10",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S11", type: "Sapi", number: 11, name: "Sapi 11",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S12", type: "Sapi", number: 12, name: "Sapi 12",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S13", type: "Sapi", number: 13, name: "Sapi 13",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S14", type: "Sapi", number: 14, name: "Sapi 14",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S15", type: "Sapi", number: 15, name: "Sapi 15",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S16", type: "Sapi", number: 16, name: "Sapi 16",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S17", type: "Sapi", number: 17, name: "Sapi 17",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S18", type: "Sapi", number: 18, name: "Sapi 18",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S19", type: "Sapi", number: 19, name: "Sapi 19",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S20", type: "Sapi", number: 20, name: "Sapi 20",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S21", type: "Sapi", number: 21, name: "Sapi 21",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S22", type: "Sapi", number: 22, name: "Sapi 22",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S23", type: "Sapi", number: 23, name: "Sapi 23",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S24", type: "Sapi", number: 24, name: "Sapi 24",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S25", type: "Sapi", number: 25, name: "Sapi 25",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S26", type: "Sapi", number: 26, name: "Sapi 26",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S27", type: "Sapi", number: 27, name: "Sapi 27",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S28", type: "Sapi", number: 28, name: "Sapi 28",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S29", type: "Sapi", number: 29, name: "Sapi 29",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "S30", type: "Sapi", number: 30, name: "Sapi 30",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", image: "foto/sapi03.jpg"
+      },
+      {
+        id: "K01", type: "Kambing", number: 1, name: "Kambing 1",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K02", type: "Kambing", number: 2, name: "Kambing 2",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K03", type: "Kambing", number: 3, name: "Kambing 3",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K04", type: "Kambing", number: 4, name: "Kambing 4",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K05", type: "Kambing", number: 5, name: "Kambing 5",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K06", type: "Kambing", number: 6, name: "Kambing 6",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K07", type: "Kambing", number: 7, name: "Kambing 7",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K08", type: "Kambing", number: 8, name: "Kambing 8",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K09", type: "Kambing", number: 9, name: "Kambing 9",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K10", type: "Kambing", number: 10, name: "Kambing 10",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K11", type: "Kambing", number: 11, name: "Kambing 11",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K12", type: "Kambing", number: 12, name: "Kambing 12",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K13", type: "Kambing", number: 13, name: "Kambing 13",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K14", type: "Kambing", number: 14, name: "Kambing 14",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K15", type: "Kambing", number: 15, name: "Kambing 15",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K16", type: "Kambing", number: 16, name: "Kambing 16",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K17", type: "Kambing", number: 17, name: "Kambing 17",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K18", type: "Kambing", number: 18, name: "Kambing 18",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K19", type: "Kambing", number: 19, name: "Kambing 19",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K20", type: "Kambing", number: 20, name: "Kambing 20",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K21", type: "Kambing", number: 21, name: "Kambing 21",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K22", type: "Kambing", number: 22, name: "Kambing 22",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K23", type: "Kambing", number: 23, name: "Kambing 23",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K24", type: "Kambing", number: 24, name: "Kambing 24",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K25", type: "Kambing", number: 25, name: "Kambing 25",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K26", type: "Kambing", number: 26, name: "Kambing 26",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K27", type: "Kambing", number: 27, name: "Kambing 27",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K28", type: "Kambing", number: 28, name: "Kambing 28",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K29", type: "Kambing", number: 29, name: "Kambing 29",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K30", type: "Kambing", number: 30, name: "Kambing 30",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K31", type: "Kambing", number: 31, name: "Kambing 31",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K32", type: "Kambing", number: 32, name: "Kambing 32",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K33", type: "Kambing", number: 33, name: "Kambing 33",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K34", type: "Kambing", number: 34, name: "Kambing 34",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K35", type: "Kambing", number: 35, name: "Kambing 35",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K36", type: "Kambing", number: 36, name: "Kambing 36",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K37", type: "Kambing", number: 37, name: "Kambing 37",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K38", type: "Kambing", number: 38, name: "Kambing 38",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K39", type: "Kambing", number: 39, name: "Kambing 39",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K40", type: "Kambing", number: 40, name: "Kambing 40",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K41", type: "Kambing", number: 41, name: "Kambing 41",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K42", type: "Kambing", number: 42, name: "Kambing 42",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K43", type: "Kambing", number: 43, name: "Kambing 43",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K44", type: "Kambing", number: 44, name: "Kambing 44",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K45", type: "Kambing", number: 45, name: "Kambing 45",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K46", type: "Kambing", number: 46, name: "Kambing 46",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K47", type: "Kambing", number: 47, name: "Kambing 47",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K48", type: "Kambing", number: 48, name: "Kambing 48",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K49", type: "Kambing", number: 49, name: "Kambing 49",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      },
+      {
+        id: "K50", type: "Kambing", number: 50, name: "Kambing 50",
+        weight: null, age: "Belum diisi", breed: "Belum diisi",
+        price: null, status: "available", emoji: "🐐"
+      }
+    ];
+
+    const STORAGE_KEY = "mauza-farm-qurban-status-v1";
+    const rupiah = amount => amount == null
+      ? "Harga belum diisi"
+      : new Intl.NumberFormat("id-ID", {
+          style: "currency", currency: "IDR", maximumFractionDigits: 0
+        }).format(amount);
+    const byId = id => document.getElementById(id);
+
+    // Muat status tersimpan di browser, jika ada.
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      animals.forEach(animal => {
+        if (saved[animal.id] === "sold" || saved[animal.id] === "available") {
+          animal.status = saved[animal.id];
+        }
+      });
+    } catch (error) {
+      console.warn("Status lokal tidak dapat dibaca.", error);
+    }
+
+    function saveStatuses() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(
+          Object.fromEntries(animals.map(animal => [animal.id, animal.status]))
+        ));
+      } catch (error) {
+        alert("Browser tidak mengizinkan penyimpanan status. Status mungkin tidak tersimpan setelah halaman ditutup.");
+      }
+    }
+
+    function whatsappLink(animal) {
+      const message = `Halo ${FARM_NAME}, saya ingin bertanya tentang ${animal.name} nomor ${animal.number}. Harga: ${rupiah(animal.price)}. Mohon konfirmasi stok, bobot aktual, usia, kondisi hewan, dan pengiriman ke ${FARM_CITY}.`;
+      return `https://wa.me/${FARM_WHATSAPP}?text=${encodeURIComponent(message)}`;
+    }
+
+    function animalCard(animal) {
+      const sold = animal.status === "sold";
+      const weightText = animal.weight == null ? "Belum diisi" : `${animal.weight} kg`;
+      return `
+  <article class="animal">
+    <div class="animal-top">
+      <span class="tag ${sold ? "sold" : ""}">
+        ${sold ? "TERJUAL" : "TERSEDIA"}
+      </span>
+    </div>
+
+    ${
+      animal.image
+        ? `<img
+              src="${animal.image}"
+              alt="${animal.name}"
+              style="
+                width: 100%;
+                height: 260px;
+                object-fit: cover;
+                object-position: center 20%;
+               display: block;
+                "
+          >`
+        : `<div style="height:220px; display:flex; align-items:center; justify-content:center; background:#eee;">
+             Foto belum tersedia
+           </div>`
+    }
+
+    <div class="animal-body">
+      <h4>${animal.name} <span class="muted">#${animal.number}</span></h4>
+      <div class="price">${rupiah(animal.price)}</div>
+
+      <div class="specs">
+        <div class="spec"><span>Bobot</span><b>${weightText}</b></div>
+        <div class="spec"><span>Usia</span><b>${animal.age}</b></div>
+        <div class="spec"><span>Jenis / ras</span><b>${animal.breed}</b></div>
+        <div class="spec"><span>Kategori</span><b>${animal.type}</b></div>
+      </div>
+
+      ${
+        sold
+          ? `<div class="sold-note">Hewan ini sudah terjual.</div>`
+          : `<a class="btn" href="${whatsappLink(animal)}" target="_blank" rel="noopener">Tanya via WhatsApp</a>`
+      }
+    </div>
+  </article>
+`;
+    }
+
+    function renderAnimals() {
+      const query = byId("search").value.trim().toLowerCase();
+      const type = byId("typeFilter").value;
+      const status = byId("statusFilter").value;
+      const sort = byId("sortFilter").value;
+
+      let list = animals.filter(animal => {
+        const matchesType = type === "all" || animal.type === type;
+        const matchesStatus = status === "all" || animal.status === status;
+        const searchable = `${animal.name} ${animal.id} ${animal.number} ${animal.breed}`.toLowerCase();
+        return matchesType && matchesStatus && searchable.includes(query);
+      });
+
+      if (sort === "priceAsc") {
+        list.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+      } else if (sort === "priceDesc") {
+        list.sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+      } else {
+        list.sort((a, b) => a.type === b.type
+          ? a.number - b.number
+          : (a.type === "Sapi" ? -1 : 1));
+      }
+
+      byId("cows").innerHTML = list.filter(a => a.type === "Sapi").map(animalCard).join("")
+        || "<p>Tidak ada sapi yang cocok dengan filter.</p>";
+      byId("goats").innerHTML = list.filter(a => a.type === "Kambing").map(animalCard).join("")
+        || "<p>Tidak ada kambing yang cocok dengan filter.</p>";
+
+      const soldCount = animals.filter(a => a.status === "sold").length;
+      byId("soldCount").textContent = soldCount;
+      byId("availableCount").textContent = animals.length - soldCount;
+
+      const previous = byId("adminAnimal").value;
+      byId("adminAnimal").innerHTML = animals.map(a =>
+        `<option value="${a.id}">${a.name} — ${a.status === "sold" ? "Terjual" : "Tersedia"}</option>`
+      ).join("");
+      if (animals.some(a => a.id === previous)) byId("adminAnimal").value = previous;
+    }
+
+    ["search", "typeFilter", "statusFilter", "sortFilter"].forEach(id => {
+      byId(id).addEventListener(id === "search" ? "input" : "change", renderAnimals);
+    });
+
+    byId("markSold").addEventListener("click", () => {
+      const animal = animals.find(a => a.id === byId("adminAnimal").value);
+      if (!animal) return;
+      animal.status = "sold";
+      saveStatuses();
+      renderAnimals();
+      byId("adminMessage").textContent = `${animal.name} ditandai Terjual pada browser ini.`;
+    });
+
+    byId("markAvailable").addEventListener("click", () => {
+      const animal = animals.find(a => a.id === byId("adminAnimal").value);
+      if (!animal) return;
+      animal.status = "available";
+      saveStatuses();
+      renderAnimals();
+      byId("adminMessage").textContent = `${animal.name} ditandai Tersedia pada browser ini.`;
+    });
+
+    renderAnimals();
+  </script>
+</body>
+</html>
